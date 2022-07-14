@@ -1,5 +1,3 @@
-# Johns NeoVim config
-
 This is my all in one, pure Lua NeoVim configuration.
 
 _Warning_: This is best used as a reference.
@@ -46,8 +44,9 @@ git clone --depth 1 https://github.com/wbthomason/packer.nvim\
 ```
 :PackerSync
 ```
+---
 
-Lua oh Lua
-Help configure NeoVim
-Lua oh Lua
+_Lua oh Lua  
+Help configure NeoVim  
+Lua oh Lua_  
 
