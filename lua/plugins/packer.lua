@@ -1,5 +1,5 @@
 return require('packer').startup(function()
-	-- Packer can manage itself
+	-- Packer just manages itself
 	use 'wbthomason/packer.nvim'
 
 	-- nvim LSP configs
@@ -11,9 +11,14 @@ return require('packer').startup(function()
 	use 'hrsh7th/nvim-cmp'
 	use 'williamboman/nvim-lsp-installer'
 
-	-- Go go go go:
-	-- Work in progress. Upstream found at github.com/jpmcb/nvim-go
-	use '~/workspace/nvim-go'
+	----------------
+	-- Plugin development
+	----------------
+	-- Work in progress. Using upstream by default:
+	use 'jpmcb/nvim-go'
+	-- If working locally, comment out above 
+	-- and uncomment below. Replace path with appropriate working local config
+	--use '~/workspace/nvim-go'
 
 	-- Luasnip
 	use 'L3MON4D3/LuaSnip'
@@ -59,7 +64,7 @@ return require('packer').startup(function()
 	use 'tpope/vim-surround'
 	use 'tpope/vim-fugitive'
 
-	-- Yaning manager (yeah yeah I know, registers exist)
+	-- Yanking manager (yeah yeah I know, registers exist)
 	use {
 		"AckslD/nvim-neoclip.lua",
 		requires = { {'nvim-telescope/telescope.nvim'} },
@@ -73,7 +78,21 @@ return require('packer').startup(function()
 		requires = { 'kyazdani42/nvim-web-devicons', opt = true }
 	}
 
-	use {'glepnir/dashboard-nvim'}
+	use {
+		'goolord/alpha-nvim',
+		requires = { 'kyazdani42/nvim-web-devicons' },
+		config = function ()
+			require'alpha'.setup(require'alpha.themes.theta'.config)
+		end
+	}
+
+	--use {
+		--'startup-nvim/startup.nvim',
+		--requires = { 'nvim-telescope/telescope.nvim', 'nvim-lua/plenary.nvim' },
+		--config = function()
+			--require('startup').setup()
+		--end,
+	--}
 
 	use {'mg979/vim-visual-multi'}
 
