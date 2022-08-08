@@ -39,6 +39,10 @@ git clone --depth 1 https://github.com/wbthomason/packer.nvim\
  ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 ```
 
+But just in case, Packer _does_ install itself automatically if it's not already present.
+But be aware that this flow sort of sucks: on first running Nvim after it automatically installs itself,
+packer _return a ton of errors_ (since the next step hasn't been executed yet).
+
 4. Start a new NeoVim session and run Packer sync to get all the plugins
 
 ```
