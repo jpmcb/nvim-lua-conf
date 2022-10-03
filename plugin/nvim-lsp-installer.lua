@@ -40,8 +40,11 @@ lsp_installer.on_server_ready(function(server)
 			}
 		}
 	elseif server.name == "tsserver" then
-
 	end
+	
+	--elseif server.name == "rust_analyzer" then
+		---- do nothing; this is automatically handled by simrat39/rust-tools
+	--end
 
 	-- This setup() function will take the provided server configuration and decorate it with the necessary properties
 	-- before passing it onwards to lspconfig.

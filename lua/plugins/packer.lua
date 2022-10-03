@@ -27,7 +27,7 @@ return require('packer').startup(function()
 	-- and uncomment below. Replace path with appropriate working local config
 	--use '~/workspace/nvim-go'
 
-	-- Luasnip
+	-- Luasnip (primarily for hrsh7th/nvim-cmp)
 	use 'L3MON4D3/LuaSnip'
 	use 'saadparwaiz1/cmp_luasnip'
 
@@ -46,12 +46,9 @@ return require('packer').startup(function()
 		requires = { {'nvim-lua/plenary.nvim'} }
 	}
 
-	-- Use fzf native for telescope
-	use {
-		'nvim-telescope/telescope-fzf-native.nvim',
-		run = 'make'
-	}
-
+	--Use fzf native for telescope
+	use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+	
 	-- nvim file tree. Alternative to NerdTree
 	use {
 		'kyazdani42/nvim-tree.lua',
@@ -107,9 +104,14 @@ return require('packer').startup(function()
 	use 'jose-elias-alvarez/null-ls.nvim'
 	use 'jose-elias-alvarez/nvim-lsp-ts-utils'
 
-  -- Automatically set up your configuration after cloning packer.nvim
-  -- Put this at the end after all plugins
-  if packer_bootstrap then
-    require('packer').sync()
-  end
+    -- Rust
+	use 'simrat39/rust-tools.nvim'
+	use 'mfussenegger/nvim-dap'
+	use 'nvim-lua/popup.nvim'
+
+	-- Automatically set up your configuration after cloning packer.nvim
+	-- Put this at the end after all plugins
+	if packer_bootstrap then
+		require('packer').sync()
+	end
 end)

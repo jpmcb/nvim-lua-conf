@@ -17,7 +17,7 @@ vim.o.mouse = "a"  -- always enable mouse mode
 vim.o.tabstop = 4  -- Tabs are 4 spaces: Reference - https://stackoverflow.com/questions/1878974/redefine-tab-as-4-spaces
 vim.o.softtabstop = 0
 vim.o.shiftwidth = 4
-vim.o.expandtab = false
+vim.o.expandtab = true
 vim.o.smartindent = true
 
 vim.o.ignorecase = true  -- ignore case when searching
