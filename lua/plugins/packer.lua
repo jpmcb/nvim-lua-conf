@@ -11,12 +11,18 @@ return require('packer').startup(function()
 
 	-- nvim LSP configs
 	use 'neovim/nvim-lspconfig'
+	use 'williamboman/nvim-lsp-installer'
+
+    -- Completions engine
 	use 'hrsh7th/cmp-nvim-lsp'
 	use 'hrsh7th/cmp-buffer'
 	use 'hrsh7th/cmp-path'
 	use 'hrsh7th/cmp-cmdline'
 	use 'hrsh7th/nvim-cmp'
-	use 'williamboman/nvim-lsp-installer'
+
+    -- Lua snippet engine (primarily to fufill requirements in hrsh7th/nvim-cmp)
+	use 'L3MON4D3/LuaSnip'
+	use 'saadparwaiz1/cmp_luasnip'
 
 	----------------
 	-- Plugin development
@@ -27,12 +33,10 @@ return require('packer').startup(function()
 	-- and uncomment below. Replace path with appropriate working local config
 	--use '~/workspace/nvim-go'
 
-	-- Luasnip (primarily for hrsh7th/nvim-cmp)
-	use 'L3MON4D3/LuaSnip'
-	use 'saadparwaiz1/cmp_luasnip'
-
 	-- Load spicy gruvbox color theme
-	use 'gruvbox-community/gruvbox'
+	--use 'gruvbox-community/gruvbox'
+    -- Tokyo night theme
+    use 'folke/tokyonight.nvim'
 
 	-- Treesitter is life
 	use {
@@ -104,14 +108,16 @@ return require('packer').startup(function()
 	use 'jose-elias-alvarez/null-ls.nvim'
 	use 'jose-elias-alvarez/nvim-lsp-ts-utils'
 
-    -- Rust
+    -- Rust tooling
 	use 'simrat39/rust-tools.nvim'
-	use 'mfussenegger/nvim-dap'
-	use 'nvim-lua/popup.nvim'
+	use 'mfussenegger/nvim-dap' -- What you do?
+	use 'nvim-lua/popup.nvim' -- What you do?
 
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins
 	if packer_bootstrap then
 		require('packer').sync()
 	end
+
+    -- Writing plugins # TODO
 end)

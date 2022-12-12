@@ -1,3 +1,7 @@
+--  Set completion options for better experience
+vim.o.completeopt = menuone,noinsert,noselect
+
+-------------------------------------------------------------------------------
 -- Reference: https://github.com/hrsh7th/nvim-cmp
 
 local luasnip = require'luasnip'
@@ -19,16 +23,21 @@ cmp.setup({
 		end,
 	},
 	mapping = {
-		['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-		['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-		['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-		['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
+		['<C-d>'] = cmp.mapping.scroll_docs(-4),
+		['<C-f>'] = cmp.mapping.scroll_docs(4),
+        ['<C-p>'] = cmp.mapping.select_prev_item(),
+        ['<C-n>'] = cmp.mapping.select_next_item(),
+		['<C-Space>'] = cmp.mapping.complete(),
 		['<C-e>'] = cmp.mapping({
 			i = cmp.mapping.abort(),
 			c = cmp.mapping.close(),
 		}),
-		['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+		['<CR>'] = cmp.mapping.confirm({
+            behavior = cmp.ConfirmBehavior.Insert,
+            select = true
+        }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 
+        -- Add tab support
 		["<Tab>"] = cmp.mapping(function(fallback)
 			if cmp.visible() then
 				cmp.select_next_item()
@@ -55,6 +64,7 @@ cmp.setup({
 		{ name = 'nvim_lsp' },
 		{ name = 'luasnip' }, -- For luasnip users.
 	}, {
+        { name = 'path' },
 		{ name = 'buffer' },
 	})
 })

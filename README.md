@@ -4,7 +4,7 @@ _Warning_: This is best used as a reference.
 Currently, I don't plan to maintain this like a "configuration distribution".
 Rather, this is my personal, curated experience that you might also like.
 But there are no releases, no breaking change contracts, and minimal support.
-Regardless, if you have a question, feel free to open an issue, pull reqeust, or discussion!
+Regardless, if you have a question, feel free to open an issue, pull request, or discussion!
 
 ---
 

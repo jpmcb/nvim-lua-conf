@@ -32,3 +32,6 @@ vim.opt.listchars = {  -- see hidden chars and their colors
 vim.o.list = true
 vim.o.updatetime = 100
 
+-- Set up automatic spell checking
+vim.opt.spelllang = 'en'
+vim.opt.spell = true
