@@ -1,14 +1,18 @@
 -- Leader key is a space
 vim.g.mapleader = " "
 
+-- Lua configurations
+-- See lua files under './lua/'
+
 -- Setup globals that should always be around
--- See `./lua/globals
-require "globals.options"
-require "globals.remaps"
+require "options"
+require "remaps"
 
-require "lsp.lsp"
+-- For configuring the global neovim LSP
+require "lsp"
 
-require 'plugins.packer'
+-- For installing plugins via packer
+require "plugins"
 
 -- Local dev of nvim-go
 require 'nvim-go'.setup()

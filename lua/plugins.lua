@@ -6,12 +6,35 @@ if fn.empty(fn.glob(install_path)) > 0 then
 end
 
 return require('packer').startup(function()
+    use 'github/copilot.vim'
 	-- Packer just manages itself
 	use 'wbthomason/packer.nvim'
 
+     -- LSP bridge glue for Mason
+    use 'jose-elias-alvarez/null-ls.nvim'
+
 	-- nvim LSP configs
-	use 'neovim/nvim-lspconfig'
-	use 'williamboman/nvim-lsp-installer'
+    use {
+        "williamboman/mason.nvim",
+        "williamboman/mason-lspconfig.nvim",
+        "neovim/nvim-lspconfig",
+        run = ":MasonUpdate", -- :MasonUpdate updates registry contents
+    }
+
+    -- Visualize lsp progress
+    use({
+        "j-hui/fidget.nvim",
+        config = function()
+            require("fidget").setup()
+        end
+    })
+
+    -- Noevim DAP server:
+    -- https://github.com/mfussenegger/nvim-dap
+    use 'mfussenegger/nvim-dap'
+
+    -- LSP vscode like icons
+    use 'onsails/lspkind-nvim'
 
     -- Completions engine
 	use 'hrsh7th/cmp-nvim-lsp'
@@ -32,6 +55,9 @@ return require('packer').startup(function()
 	-- If working locally, comment out above 
 	-- and uncomment below. Replace path with appropriate working local config
 	--use '~/workspace/nvim-go'
+
+    -- Local llama development
+    use '~/workspace/nvim-llama'
 
 	-- Load spicy gruvbox color theme
 	--use 'gruvbox-community/gruvbox'
@@ -61,6 +87,12 @@ return require('packer').startup(function()
 		},
 		config = function() require'nvim-tree'.setup {} end
 	}
+
+    -- Powerful, fast auto-pairing
+    use {
+        "windwp/nvim-autopairs",
+        config = function() require("nvim-autopairs").setup {} end
+    }
 
 	-- Git stuff
 	use 'airblade/vim-gitgutter'
@@ -105,8 +137,11 @@ return require('packer').startup(function()
 	use {'mg979/vim-visual-multi'}
 
 	-- Typescript. Oh Typescript. Where art thou Typescript.
-	use 'jose-elias-alvarez/null-ls.nvim'
 	use 'jose-elias-alvarez/nvim-lsp-ts-utils'
+
+    -- Prettier daemon for faster ts/css/js formatting
+    -- Needs to be installed on system: $ npm install -g @fsouza/prettierd
+    use 'MunifTanjim/prettier.nvim'
 
     -- Rust tooling
 	use 'simrat39/rust-tools.nvim'
