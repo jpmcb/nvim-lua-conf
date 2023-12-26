@@ -1,158 +1,160 @@
-local fn = vim.fn
-local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
-if fn.empty(fn.glob(install_path)) > 0 then
-  packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
-  vim.cmd [[packadd packer.nvim]]
+-- Install lazy.nvim for package management if it's not found on the system
+-- Requires git to be installed.
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+
+if not vim.loop.fs_stat(lazypath) then
+	vim.fn.system({
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"https://github.com/folke/lazy.nvim.git",
+		"--branch=stable", -- latest stable release
+		lazypath,
+	})
 end
 
-return require('packer').startup(function()
-    use 'github/copilot.vim'
-	-- Packer just manages itself
-	use 'wbthomason/packer.nvim'
+vim.opt.rtp:prepend(lazypath)
 
-     -- LSP bridge glue for Mason
-    use 'jose-elias-alvarez/null-ls.nvim'
+return require("lazy").setup({
+	-- only on justfile extensions
+	{ "NoahTheDuke/vim-just" },
+
+	{ "williamboman/mason.nvim" },
+	{ "williamboman/mason-lspconfig.nvim" },
+
+	-- LSP bridge glue for Mason
+	{ "jose-elias-alvarez/null-ls.nvim" },
 
 	-- nvim LSP configs
-    use {
-        "williamboman/mason.nvim",
-        "williamboman/mason-lspconfig.nvim",
-        "neovim/nvim-lspconfig",
-        run = ":MasonUpdate", -- :MasonUpdate updates registry contents
-    }
+	{ "neovim/nvim-lspconfig" },
 
-    -- Visualize lsp progress
-    use({
-        "j-hui/fidget.nvim",
-        config = function()
-            require("fidget").setup()
-        end
-    })
+	-- Visualize lsp progress
+	{
+		"j-hui/fidget.nvim",
+		config = function()
+			require("fidget").setup()
+		end,
+	},
 
-    -- Noevim DAP server:
-    -- https://github.com/mfussenegger/nvim-dap
-    use 'mfussenegger/nvim-dap'
+	-- Noevim DAP server:
+	-- https://github.com/mfussenegger/nvim-dap
+	{ "mfussenegger/nvim-dap" },
 
-    -- LSP vscode like icons
-    use 'onsails/lspkind-nvim'
+	-- LSP vscode like icons
+	{ "onsails/lspkind-nvim" },
 
-    -- Completions engine
-	use 'hrsh7th/cmp-nvim-lsp'
-	use 'hrsh7th/cmp-buffer'
-	use 'hrsh7th/cmp-path'
-	use 'hrsh7th/cmp-cmdline'
-	use 'hrsh7th/nvim-cmp'
+	-- Completions engine
+	{ "hrsh7th/cmp-nvim-lsp" },
+	{ "hrsh7th/cmp-buffer" },
+	{ "hrsh7th/cmp-path" },
+	{ "hrsh7th/cmp-cmdline" },
+	{ "hrsh7th/nvim-cmp" },
 
-    -- Lua snippet engine (primarily to fufill requirements in hrsh7th/nvim-cmp)
-	use 'L3MON4D3/LuaSnip'
-	use 'saadparwaiz1/cmp_luasnip'
+	-- Lua snippet engine (primarily to fufill requirements in hrsh7th/nvim-cmp)
+	{
+		"L3MON4D3/LuaSnip",
+		-- follow latest release.
+		version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+		-- install jsregexp (optional!).
+		build = "make install_jsregexp",
+	},
 
-	----------------
-	-- Plugin development
-	----------------
+	{ "saadparwaiz1/cmp_luasnip" },
+
 	-- Work in progress. Using upstream by default:
-	use 'jpmcb/nvim-go'
-	-- If working locally, comment out above 
+	{
+		"jpmcb/nvim-go",
+		config = function()
+			require("nvim-go").setup()
+		end,
+	},
+	-- If working locally, comment out above
 	-- and uncomment below. Replace path with appropriate working local config
-	--use '~/workspace/nvim-go'
+	--{ dir = "~/workspace/nvim-go" },
 
-    -- Local llama development
-    use '~/workspace/nvim-llama'
+	-- Local llama development
+	{
+		dir = "~/workspace/nvim-llama",
+		config = function()
+			require("nvim-llama").setup({})
+		end,
+	},
 
-	-- Load spicy gruvbox color theme
-	--use 'gruvbox-community/gruvbox'
-    -- Tokyo night theme
-    use 'folke/tokyonight.nvim'
+	-- Additional color themes
+	{
+		"catppuccin/nvim",
+		name = "catppuccin",
+		lazy = false,
+		priority = 1000,
+		config = function()
+			vim.cmd([[colorscheme catppuccin-macchiato]])
+		end,
+	},
+	{ "gruvbox-community/gruvbox", lazy = true },
+	{ "folke/tokyonight.nvim", lazy = true },
 
 	-- Treesitter is life
-	use {
-		'nvim-treesitter/nvim-treesitter',
-		run = ':TSUpdate'
-	}
+	{
+		"nvim-treesitter/nvim-treesitter",
+		build = ":TSUpdate",
+	},
 
 	-- Gaze deeply into the unknown
-	use {
-		'nvim-telescope/telescope.nvim',
-		requires = { {'nvim-lua/plenary.nvim'} }
-	}
+	{
+		"nvim-telescope/telescope.nvim",
+		dependencies = { "nvim-lua/plenary.nvim" },
+	},
 
 	--Use fzf native for telescope
-	use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
-	
+	{
+		"nvim-telescope/telescope-fzf-native.nvim",
+		build = "make",
+	},
+
+	{ "kyazdani42/nvim-web-devicons" },
+
 	-- nvim file tree. Alternative to NerdTree
-	use {
-		'kyazdani42/nvim-tree.lua',
-		requires = {
-			'kyazdani42/nvim-web-devicons', -- optional, for file icon
-		},
-		config = function() require'nvim-tree'.setup {} end
-	}
+	{ "kyazdani42/nvim-tree.lua" },
 
-    -- Powerful, fast auto-pairing
-    use {
-        "windwp/nvim-autopairs",
-        config = function() require("nvim-autopairs").setup {} end
-    }
+	-- Powerful, fast auto-pairing
+	{
+		"windwp/nvim-autopairs",
+		config = function()
+			require("nvim-autopairs").setup({})
+		end,
+	},
 
-	-- Git stuff
-	use 'airblade/vim-gitgutter'
+	{ "airblade/vim-gitgutter" },
 
 	-- comment stuff out
-	use 'preservim/nerdcommenter'
+	{ "preservim/nerdcommenter" },
 
 	-- Time Pope is a god
-	use 'tpope/vim-surround'
-	use 'tpope/vim-fugitive'
+	{ "tpope/vim-surround" },
+	{ "tpope/vim-fugitive" },
 
-	-- Yanking manager (yeah yeah I know, registers exist)
-	use {
-		"AckslD/nvim-neoclip.lua",
-		requires = { {'nvim-telescope/telescope.nvim'} },
+	{ "nvim-lualine/lualine.nvim" },
+
+	{
+		"goolord/alpha-nvim",
 		config = function()
-			require('neoclip').setup()
+			require("alpha").setup(require("alpha.themes.theta").config)
 		end,
-	}
+	},
 
-	use {
-		'nvim-lualine/lualine.nvim',
-		requires = { 'kyazdani42/nvim-web-devicons', opt = true }
-	}
-
-	use {
-		'goolord/alpha-nvim',
-		requires = { 'kyazdani42/nvim-web-devicons' },
-		config = function ()
-			require'alpha'.setup(require'alpha.themes.theta'.config)
-		end
-	}
-
-	--use {
-		--'startup-nvim/startup.nvim',
-		--requires = { 'nvim-telescope/telescope.nvim', 'nvim-lua/plenary.nvim' },
-		--config = function()
-			--require('startup').setup()
-		--end,
-	--}
-
-	use {'mg979/vim-visual-multi'}
+	{ "mg979/vim-visual-multi" },
 
 	-- Typescript. Oh Typescript. Where art thou Typescript.
-	use 'jose-elias-alvarez/nvim-lsp-ts-utils'
+	{ "jose-elias-alvarez/nvim-lsp-ts-utils" },
 
-    -- Prettier daemon for faster ts/css/js formatting
-    -- Needs to be installed on system: $ npm install -g @fsouza/prettierd
-    use 'MunifTanjim/prettier.nvim'
+	-- Prettier daemon for faster ts/css/js formatting
+	-- Needs to be installed on system: $ npm install -g @fsouza/prettierd
+	{ "MunifTanjim/prettier.nvim" },
 
-    -- Rust tooling
-	use 'simrat39/rust-tools.nvim'
-	use 'mfussenegger/nvim-dap' -- What you do?
-	use 'nvim-lua/popup.nvim' -- What you do?
+	-- Rust tooling
+	{ "simrat39/rust-tools.nvim" },
+	{ "mfussenegger/nvim-dap" },
+	{ "nvim-lua/popup.nvim" },
 
-	-- Automatically set up your configuration after cloning packer.nvim
-	-- Put this at the end after all plugins
-	if packer_bootstrap then
-		require('packer').sync()
-	end
-
-    -- Writing plugins # TODO
-end)
+	{ "stevearc/conform.nvim" },
+})
