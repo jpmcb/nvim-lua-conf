@@ -82,21 +82,26 @@ return require("lazy").setup({
 
 	-- Additional color themes
 	{
-		"catppuccin/nvim",
-		name = "catppuccin",
+		"folke/tokyonight.nvim",
 		lazy = false,
 		priority = 1000,
 		config = function()
-			vim.cmd([[colorscheme catppuccin-macchiato]])
+			vim.cmd([[colorscheme tokyonight-night]])
 		end,
 	},
 	{ "gruvbox-community/gruvbox", lazy = true },
-	{ "folke/tokyonight.nvim", lazy = true },
+	{ "catppuccin/nvim", lazy = true },
 
 	-- Treesitter is life
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
+	},
+
+	{
+		"nvim-neorg/neorg",
+		build = ":Neorg sync-parsers",
+		dependencies = { "nvim-lua/plenary.nvim" },
 	},
 
 	-- Gaze deeply into the unknown
@@ -157,4 +162,13 @@ return require("lazy").setup({
 	{ "nvim-lua/popup.nvim" },
 
 	{ "stevearc/conform.nvim" },
+
+	{
+		"stevearc/oil.nvim",
+		opts = {},
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+	},
+
+	-- Astro treesitter parsing bindings
+	{ "virchau13/tree-sitter-astro" },
 })

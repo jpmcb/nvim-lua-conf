@@ -54,3 +54,6 @@ lspconfig.tflint.setup({})
 
 -- Typescript
 lspconfig.tsserver.setup({})
+
+-- Astro
+lspconfig.astro.setup({})
