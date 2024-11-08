@@ -16,6 +16,41 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 return require("lazy").setup({
+	-- nice, modern folding
+	{
+		"kevinhwang91/nvim-ufo",
+		dependencies = { "kevinhwang91/promise-async" },
+	},
+
+	-- soft wrapping
+	{
+		"andrewferrier/wrapping.nvim",
+		config = function()
+			require("wrapping").setup()
+		end,
+	},
+
+	{
+		"epwalsh/obsidian.nvim",
+		version = "*", -- recommended, use latest release instead of latest commit
+		lazy = true,
+		ft = "markdown",
+		dependencies = {
+			-- Required.
+			"nvim-lua/plenary.nvim",
+
+			-- see below for full list of optional dependencies 👇
+		},
+		opts = {
+			workspaces = {
+				{
+					name = "OpenSauced",
+					path = "~/Documents/OpenSauced",
+				},
+			},
+		},
+	},
+
 	-- only on justfile extensions
 	{ "NoahTheDuke/vim-just" },
 
@@ -72,6 +107,17 @@ return require("lazy").setup({
 	-- and uncomment below. Replace path with appropriate working local config
 	--{ dir = "~/workspace/nvim-go" },
 
+	--{
+		--dir = "~/workspace/rip-and-tear.nvim",
+		--config = function()
+			--require('rip-and-tear').setup({
+			  --mp3_file = '/Users/jpmcb/Downloads/rip-and-tear.mp3',  -- Update this path
+			  --player_command = 'mpg123',                  -- Change if using 'afplay' or 'cvlc'
+			  --delay = 1000,                               -- Adjust the delay as needed
+			--})
+		--end
+--},
+
 	-- Local llama development
 	{
 		dir = "~/workspace/nvim-llama",
@@ -80,28 +126,33 @@ return require("lazy").setup({
 		end,
 	},
 
-	-- Additional color themes
+	-- Color themes
 	{
 		"folke/tokyonight.nvim",
-		lazy = false,
-		priority = 1000,
-		config = function()
-			vim.cmd([[colorscheme tokyonight-night]])
-		end,
+		name = "tokyonight",
 	},
-	{ "gruvbox-community/gruvbox", lazy = true },
-	{ "catppuccin/nvim", lazy = true },
+	{
+		"gruvbox-community/gruvbox",
+		name = "gruvbox",
+	},
+	{
+		"catppuccin/nvim",
+		name = "catppuccin",
+	},
+	{
+		"rose-pine/neovim",
+		name = "rose-pine",
+	},
 
 	-- Treesitter is life
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
-	},
-
-	{
-		"nvim-neorg/neorg",
-		build = ":Neorg sync-parsers",
-		dependencies = { "nvim-lua/plenary.nvim" },
+		ensure_installed = {
+			"markdown_inline",
+			"go",
+		},
+		auto_install = true,
 	},
 
 	-- Gaze deeply into the unknown
@@ -171,4 +222,42 @@ return require("lazy").setup({
 
 	-- Astro treesitter parsing bindings
 	{ "virchau13/tree-sitter-astro" },
+
+	{
+		"folke/trouble.nvim",
+		branch = "dev", -- IMPORTANT!
+		keys = {
+			{
+				"<leader>xx",
+				"<cmd>Trouble diagnostics toggle<cr>",
+				desc = "Diagnostics (Trouble)",
+			},
+			{
+				"<leader>xX",
+				"<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
+				desc = "Buffer Diagnostics (Trouble)",
+			},
+			{
+				"<leader>cs",
+				"<cmd>Trouble symbols toggle focus=false<cr>",
+				desc = "Symbols (Trouble)",
+			},
+			{
+				"<leader>cl",
+				"<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
+				desc = "LSP Definitions / references / ... (Trouble)",
+			},
+			{
+				"<leader>xL",
+				"<cmd>Trouble loclist toggle<cr>",
+				desc = "Location List (Trouble)",
+			},
+			{
+				"<leader>xQ",
+				"<cmd>Trouble qflist toggle<cr>",
+				desc = "Quickfix List (Trouble)",
+			},
+		},
+		opts = {}, -- for default options, refer to the configuration section for custom setup.
+	},
 })

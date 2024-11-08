@@ -1,5 +1,6 @@
 local lspconfig = require("lspconfig")
 local util = require("lspconfig/util")
+local utils
 
 -- Go
 lspconfig.gopls.setup({
@@ -57,3 +58,16 @@ lspconfig.tsserver.setup({})
 
 -- Astro
 lspconfig.astro.setup({})
+
+-- python
+lspconfig.ruff.setup({})
+lspconfig.ruff_lsp.setup({})
+lspconfig.pyright.setup({
+	--settings = {
+	--python = {
+	--analysis = {
+	--ignore = { "*" }, -- Using Ruff
+	--},
+	--},
+	--},
+})
