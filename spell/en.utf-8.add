@@ -10,3 +10,6 @@ ghAuthToken
 forkerContributingReposCount
 releative/!
 package/!
+package
+Kubernetes
+CompileSchema

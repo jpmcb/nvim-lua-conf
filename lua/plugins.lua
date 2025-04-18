@@ -58,7 +58,7 @@ return require("lazy").setup({
 	{ "williamboman/mason-lspconfig.nvim" },
 
 	-- LSP bridge glue for Mason
-	{ "jose-elias-alvarez/null-ls.nvim" },
+	{ "nvimtools/none-ls.nvim" },
 
 	-- nvim LSP configs
 	{ "neovim/nvim-lspconfig" },
@@ -108,23 +108,36 @@ return require("lazy").setup({
 	--{ dir = "~/workspace/nvim-go" },
 
 	--{
-		--dir = "~/workspace/rip-and-tear.nvim",
-		--config = function()
-			--require('rip-and-tear').setup({
-			  --mp3_file = '/Users/jpmcb/Downloads/rip-and-tear.mp3',  -- Update this path
-			  --player_command = 'mpg123',                  -- Change if using 'afplay' or 'cvlc'
-			  --delay = 1000,                               -- Adjust the delay as needed
-			--})
-		--end
---},
+	--dir = "~/workspace/rip-and-tear.nvim",
+	--config = function()
+	--require('rip-and-tear').setup({
+	--mp3_file = '/Users/jpmcb/Downloads/rip-and-tear.mp3',  -- Update this path
+	--player_command = 'mpg123',                  -- Change if using 'afplay' or 'cvlc'
+	--delay = 1000,                               -- Adjust the delay as needed
+	--})
+	--end
+	--},
 
 	-- Local llama development
-	{
-		dir = "~/workspace/nvim-llama",
-		config = function()
-			require("nvim-llama").setup({})
-		end,
-	},
+	--{
+	--dir = "~/workspace/jpmcb/nvim-llama",
+	--config = function()
+	--require("nvim-claude").setup({})
+	--end,
+	--},
+
+	--{
+	--'agent-api/agent.nvim',
+	--name = "agent",
+	--dir = "~/workspace/agent-api/agent.nvim/",
+	--config = function()
+	--require('agent').setup({
+	--binary_path = vim.fn.expand('~/workspace/agent-api/agent.nvim/build/out'),
+	--debug = true,
+	---- Additional configuration options
+	--})
+	--end
+	--},
 
 	-- Color themes
 	{
@@ -260,4 +273,67 @@ return require("lazy").setup({
 		},
 		opts = {}, -- for default options, refer to the configuration section for custom setup.
 	},
+
+	-- AI is the future bro.
+	{
+		--dir = "~/workspace/yetone/avante.nvim",
+		"yetone/avante.nvim",
+		event = "VeryLazy",
+		version = false, -- Never set this value to "*"! Never!
+		-- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
+		build = "make",
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
+			"stevearc/dressing.nvim",
+			"nvim-lua/plenary.nvim",
+			"MunifTanjim/nui.nvim",
+			--- The below dependencies are optional,
+			"echasnovski/mini.pick", -- for file_selector provider mini.pick
+			"nvim-telescope/telescope.nvim", -- for file_selector provider telescope
+			"hrsh7th/nvim-cmp",     -- autocompletion for avante commands and mentions
+			"ibhagwan/fzf-lua",     -- for file_selector provider fzf
+			"nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+			"zbirenbaum/copilot.lua", -- for providers='copilot'
+			{
+				-- support for image pasting
+				"HakonHarnes/img-clip.nvim",
+				event = "VeryLazy",
+				opts = {
+					-- recommended settings
+					default = {
+						embed_image_as_base64 = false,
+						prompt_for_file_name = false,
+						drag_and_drop = {
+							insert_mode = true,
+						},
+						-- required for Windows users
+						use_absolute_path = true,
+					},
+				},
+			},
+			{
+				-- Make sure to set this up properly if you have lazy=true
+				'MeanderingProgrammer/render-markdown.nvim',
+				opts = {
+					file_types = { "markdown", "Avante" },
+				},
+				ft = { "markdown", "Avante" },
+			},
+		},
+	},
+
+	{
+		"ravitemer/mcphub.nvim",
+		dependencies = {
+			"nvim-lua/plenary.nvim", -- Required for Job and HTTP requests
+		},
+		-- comment the following line to ensure hub will be ready at the earliest
+		cmd = "MCPHub",                    -- lazy load by default
+		build = "npm install -g mcp-hub@latest", -- Installs required mcp-hub npm module
+		-- uncomment this if you don't want mcp-hub to be available globally or can't use -g
+		-- build = "bundled_build.lua",  -- Use this and set use_bundled_binary = true in opts  (see Advanced configuration)
+		config = function()
+			require("mcphub").setup()
+		end,
+	}
 })
