@@ -118,3 +118,5 @@ lspconfig.pyright.setup({
 	--},
 	--},
 })
+
+--lspconfig.denols.setup({})

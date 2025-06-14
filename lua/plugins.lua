@@ -44,8 +44,16 @@ return require("lazy").setup({
 		opts = {
 			workspaces = {
 				{
-					name = "OpenSauced",
-					path = "~/Documents/OpenSauced",
+					name = "Lessons",
+					path = "~/Documents/Lessons",
+				},
+				{
+					name = "Zuplo",
+					path = "~/Documents/Zuplo",
+				},
+				{
+					name = "Quartz Content",
+					path = "~/Documents/Quartz/content",
 				},
 			},
 		},
