@@ -53,7 +53,8 @@ lspconfig.terraformls.setup({})
 lspconfig.tflint.setup({})
 
 -- Typescript
-lspconfig.ts_ls.setup({})
+--lspconfig.ts_ls.setup({})
+lspconfig.tsgo.setup({})
 
 -- ESLint
 local customizations = {

@@ -188,6 +188,11 @@ return require("lazy").setup({
 		build = "make",
 	},
 
+	--Use fzf native for telescope
+	{
+		"Marskey/telescope-sg",
+	},
+
 	{ "kyazdani42/nvim-web-devicons" },
 
 	-- nvim file tree. Alternative to NerdTree
@@ -343,5 +348,15 @@ return require("lazy").setup({
 		config = function()
 			require("mcphub").setup()
 		end,
+	},
+
+	{
+		"greggh/claude-code.nvim",
+		dependencies = {
+			"nvim-lua/plenary.nvim", -- Required for git operations
+		},
+		config = function()
+			require("claude-code").setup()
+		end
 	}
 })
