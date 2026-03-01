@@ -120,4 +120,7 @@ lspconfig.pyright.setup({
 	--},
 })
 
+-- Nix
+lspconfig.nixd.setup({})
+
 --lspconfig.denols.setup({})
